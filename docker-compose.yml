@@ -1,0 +1,32 @@
+version: '2'
+
+services:
+   
+   db:
+     image: postgres  
+     volumes: 
+        - ./postgresInit:/docker-entrypoint-initdb.d 
+     environment:
+        - "POSTGRES_PASSWORD=password-postgres"
+        - "POSTGRES_USER=user-postgres"
+        - "POSTGRES_DB=django-project-name"    
+
+   web:
+     image: sasnoun/djangoforpostgres:V2
+     command: bash -c "python /codes/manage.py migrate && python /codes/manage.py runserver 0.0.0.0:8000"
+     volumes:
+       - "./codes:/codes" 
+     ports:
+       - "8000:8000"
+     depends_on:
+       - db
+     links:
+      - "db"
+     environment:
+       - "django-project-name=testdjango"
+       - "django-project-name=django-project-name"
+       - "user-postgres=user-postgres"
+       - "password-postgres=password-postgres"
+       - "host-postgres=db"
+       - "port-postgres=5432"
+
