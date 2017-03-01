@@ -12,7 +12,7 @@ services:
         - "POSTGRES_DB=django-project-name"    
 
    web:
-     image: sasnoun/djangoforpostgres:V2
+     image: ucp.lab.hoplasoftware.fr:443/sasnoun/djangoforpostgres:V2
      command: bash -c "python /codes/manage.py migrate && python /codes/manage.py runserver 0.0.0.0:8000"
      volumes:
        - "./codes:/codes" 
