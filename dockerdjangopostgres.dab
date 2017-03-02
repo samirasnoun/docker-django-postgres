@@ -1,0 +1,40 @@
+{
+  "Services": {
+    "db": {
+      "Env": [
+        "POSTGRES_PASSWORD=password-postgres", 
+        "POSTGRES_USER=user-postgres", 
+        "POSTGRES_DB=django-project-name"
+      ], 
+      "Image": "postgres@sha256:ff99a5301e7c81cba881e3fbdbf4df5a068683765249ba5ea5694a83747509d4", 
+      "Networks": [
+        "default"
+      ]
+    }, 
+    "web": {
+      "Args": [
+        "bash", 
+        "-c", 
+        "python /codes/manage.py migrate && python /codes/manage.py runserver 0.0.0.0:8000"
+      ], 
+      "Env": [
+        "django-project-name=django-project-name", 
+        "password-postgres=password-postgres", 
+        "user-postgres=user-postgres", 
+        "port-postgres=5432", 
+        "host-postgres=db"
+      ], 
+      "Image": "samirasnoun/djangoforpostgres@sha256:359ee4710b399e52a367c620418ec73aefa56c259e59c225a2dabc872b497caf", 
+      "Networks": [
+        "default"
+      ], 
+      "Ports": [
+        {
+          "Port": 8000, 
+          "Protocol": "tcp"
+        }
+      ]
+    }
+  }, 
+  "Version": "0.1"
+}

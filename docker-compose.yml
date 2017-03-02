@@ -1,32 +1,27 @@
-version: '2'
+version: '3'
 
 services:
    
    db:
-     image: postgres  
-     volumes: 
-        - ./postgresInit:/docker-entrypoint-initdb.d 
-     environment:
-        - "POSTGRES_PASSWORD=password-postgres"
-        - "POSTGRES_USER=user-postgres"
-        - "POSTGRES_DB=django-project-name"    
+     image: ucp.lab.hoplasoftware.fr:443/sasnoun/postgres:V.9.6.1.3  
 
    web:
-     image: ucp.lab.hoplasoftware.fr:443/sasnoun/djangoforpostgres:V2
+     image: ucp.lab.hoplasoftware.fr:443/sasnoun/djangoforpostgres:V4
      command: bash -c "python /codes/manage.py migrate && python /codes/manage.py runserver 0.0.0.0:8000"
-     volumes:
-       - "./codes:/codes" 
      ports:
-       - "8000:8000"
+       - "82:8000"
      depends_on:
-       - db
+       - "db"
      links:
-      - "db"
+      - db
      environment:
-       - "django-project-name=testdjango"
-       - "django-project-name=django-project-name"
-       - "user-postgres=user-postgres"
-       - "password-postgres=password-postgres"
-       - "host-postgres=db"
-       - "port-postgres=5432"
+       - django-project-name=testdjango
+       - django-project-name=docker
+       - user-postgres=docker
+       - password-postgres=docker
+       - host-postgres=db
+       - port-postgres=5432
+
+ 
+
 
